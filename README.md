@@ -4,7 +4,8 @@ A small GUI for launching `llama-server` without hand-building a command
 line every time. Pick a model, pick arguments from a dropdown, see the
 exact command it'll run, save model+argument combos as Model Templates,
 and it opens your browser to the chat UI automatically once the model has
-finished loading.
+finished loading. Also converts the web UI's `.jsonl` conversation
+exports into readable `.md` files.
 
 ## Download
 
@@ -18,8 +19,9 @@ Anywhere else claiming to host this isn't official.
 
 ## Build it (on Windows)
 
-1. Copy `llama_concierge.py` onto the Windows machine — anywhere is fine
-   for the build step.
+1. Copy `llama_concierge.py` **and** `jsonl_to_markdown.py` onto the
+   Windows machine, into the same folder — anywhere is fine for the
+   build step.
 2. Open a terminal there and install the packager (one-time, skip if
    already done):
    ```
@@ -79,6 +81,13 @@ Re-run step 3 only if the source changes and you want to rebuild.
   watch the console and guess when it's ready.
 - **Open Models Folder / Open llama.cpp Folder**: quick shortcuts to
   the two folders you're most likely to need, via File Explorer.
+- **Convert Chat**: pick a `.jsonl` conversation export from the web UI
+  and it's converted straight to a readable `.md` file of the same name,
+  next to the original — system prompt, each turn, tool calls/results,
+  and attachments all laid out with headings. Only the conversation path
+  you actually saw gets included — if you ever edited or regenerated a
+  message, abandoned branches are left out, same as what the web UI
+  itself shows you.
 - Whatever's active when you close the window is what auto-loads next
   time.
 

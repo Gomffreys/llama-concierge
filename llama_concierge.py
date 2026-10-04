@@ -10,6 +10,8 @@ import tkinter as tk
 import webbrowser
 from tkinter import filedialog, messagebox, simpledialog, ttk
 
+from jsonl_to_markdown import convert_jsonl_to_markdown
+
 CONFIG_FILENAME = "llama_concierge_config.json"
 
 DEFAULT_MODELS_ROOT = r"C:\LM Models"
@@ -311,11 +313,15 @@ class LlamaConciergeApp(tk.Tk):
         folder_frame.pack(fill="x", padx=8, pady=(0, 10))
         folder_frame.columnconfigure(0, weight=1)
         folder_frame.columnconfigure(1, weight=1)
+        folder_frame.columnconfigure(2, weight=1)
         ttk.Button(folder_frame, text="Open Models Folder", command=self._open_models_folder).grid(
             row=0, column=0, sticky="ew", padx=(0, 4)
         )
         ttk.Button(folder_frame, text="Open llama.cpp Folder", command=self._open_server_folder).grid(
-            row=0, column=1, sticky="ew", padx=(4, 0)
+            row=0, column=1, sticky="ew", padx=4
+        )
+        ttk.Button(folder_frame, text="Convert Chat", command=self._convert_chat).grid(
+            row=0, column=2, sticky="ew", padx=(4, 0)
         )
 
     # ---------- data helpers ----------
@@ -555,6 +561,23 @@ class LlamaConciergeApp(tk.Tk):
     def _open_server_folder(self):
         server_path = self.config_data.get("server_path") or DEFAULT_SERVER_PATH
         open_folder(os.path.dirname(server_path))
+
+    def _convert_chat(self):
+        input_path = filedialog.askopenfilename(
+            title="Select a llama.cpp conversation export (.jsonl)",
+            filetypes=[("JSONL export", "*.jsonl"), ("All files", "*.*")],
+        )
+        if not input_path:
+            return
+
+        output_path = os.path.splitext(input_path)[0] + ".md"
+        try:
+            convert_jsonl_to_markdown(input_path, output_path)
+        except (OSError, ValueError) as e:
+            messagebox.showerror("Conversion failed", str(e))
+            return
+
+        messagebox.showinfo("Chat converted", f"Saved to:\n{output_path}")
 
     def _launch(self):
         server_path = self.config_data.get("server_path") or DEFAULT_SERVER_PATH
