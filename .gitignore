@@ -1,0 +1,15 @@
+# PyInstaller build output
+build/
+dist/
+*.spec
+*.exe
+
+# Python
+__pycache__/
+*.pyc
+
+# Per-install runtime config (generated next to the .exe, not part of the repo)
+llama_concierge_config.json
+
+# Local planning doc kept on disk for personal reference only — never published
+SCOPE.md
