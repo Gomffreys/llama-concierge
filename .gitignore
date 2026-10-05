@@ -13,3 +13,10 @@ llama_concierge_config.json
 
 # Local planning doc kept on disk for personal reference only — never published
 SCOPE.md
+
+# Geoff's own local version snapshots/build staging — personal backups, not repo history
+Version1/
+Version1_1/
+
+# macOS Finder metadata
+.DS_Store
